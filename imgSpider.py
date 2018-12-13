@@ -5,13 +5,17 @@ import os
 import re
 import hashlib
 
-path = input('输入想要存放图片的文件夹')
-key = input('输入一个搜索关键词:')
+path = input('输入想要存放图片的文件夹: ')
+key = input('输入一个搜索关键词: ')
+path += '\\'+key+'\\'
 main = 'https://www.zerochan.net/'
 page = 1  # 设置起始页码
 name = 1  #文件名
 imgSet = set()
 while 1:  # 下载图片
+    if not os.path.exists(path):
+        os.makedirs(path)
+    print(str(page))
     url = main+key+'?p='+str(page)  # 搜索结果页面
     r = requests.get(url)           # 连接网页
     strurl = re.findall(
@@ -26,7 +30,7 @@ while 1:  # 下载图片
         h = hashlib.md5(r.content).hexdigest()
         if h not in imgSet:
             imgSet.add(h)
-            with open(path+key+str(name)+'.jpg', 'wb') as f:
+            with open(path+key+'_'+'page'+str(page)+'_'+str(name)+'.jpg', 'wb') as f:
                 f.write(r.content)
             f.close()
             print(jpgUrl+' ok\n')
