@@ -34,8 +34,6 @@ def find_article_url(page):
 def download(article_url):
     flag = 1
     for aurl in article_url:
-        print(aurl)
-    for aurl in article_url:
         r = getHtmlText(aurl)
         soup = BeautifulSoup(r, 'lxml')
         with open(path+"Article/"+soup.title.get_text().replace("/", "")+".html", "w") as f:
@@ -48,6 +46,6 @@ def download(article_url):
 
 if __name__ == '__main__':
     article_url = []
-    for page in range(1, 2):
+    for page in range(1, 301):
         article_url.extend(find_article_url(page))
     download(article_url)
